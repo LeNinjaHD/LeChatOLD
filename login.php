@@ -6,16 +6,28 @@ include("mysql.php");
 <head>
   <meta charset="utf-8"></meta>
     <title>LeChat - Login</title>
-    <link rel="stylesheet" href="css/header.css">
+    <?php
+    $mode = "";
+    $statement = $pdo->prepare("SELECT mode FROM settings WHERE userid = ?");
+    $statement->execute(array($id));
+    while($row = $statement->fetch()) {
+       $mode = $row['mode'];
+    }
+    if($mode == "Darkmode") {
+      echo '<link rel="stylesheet" href="css/header.css">';
+    } else {
+      echo '<link rel="stylesheet" href="css/light.css">';
+    }
+    ?>
 </head>
 
 <body>
   <div class="header">
-    <a href="https://localhost/chat/alpha" class="logo">LeChat - Start</a>
+    <a href="https://localhost/chat/alpha" class="logo">LeChat - Login</a>
       <div class="header-right">
         <a class="active" href="../">Start</a>
-        <a href="#contact">Contact</a>
-        <a href="#about">About</a>
+        <a href="chat.php">Chat</a>
+        <a href="login.php">Login</a>
       </div>
   </div>
   <?php
@@ -51,5 +63,7 @@ Dein Passwort:<br>
 
 <input type="submit" value="Abschicken">
 </form>
+<p>
+Hast du noch keinen Account? <form action="register.php"><button type="submit">Registrieren</button></form>
 </body>
 </html>

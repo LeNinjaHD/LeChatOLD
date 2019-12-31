@@ -6,6 +6,7 @@ if(!isset($_SESSION['userid'])) {
 
 //Abfrage der Nutzer ID vom Login
 $userid = $_SESSION['userid'];
+include("modemanager.php");
 #error_reporting(0);
 include('mysql.php');
   #$_SESSION['name'] = $_POST['name'];
@@ -23,7 +24,20 @@ if(isset($_GET['msg'])) {
 <head>
   <meta charset="utf-8"></meta>
     <title>LeChat - Start</title>
-    <link rel="stylesheet" href="css/header.css">
+    <?php
+    $mode = "";
+    $statement = $pdo->prepare("SELECT mode FROM settings WHERE userid = ?");
+    $statement->execute(array($id));
+    while($row = $statement->fetch()) {
+       $mode = $row['mode'];
+    }
+    if($mode == "Darkmode") {
+      echo '<link rel="stylesheet" href="css/header.css">';
+    } else {
+      echo '<link rel="stylesheet" href="css/light.css">';
+    }
+    ?>
+
     <script type='text/javascript' src='https://code.jquery.com/jquery-3.1.0.min.js'></script>
     <script>
       window.onload = function () {
@@ -33,11 +47,11 @@ if(isset($_GET['msg'])) {
 </head>
 <body>
   <div class="header">
-  <a href="https://localhost/chat/alpha" class="logo">LeChat - Start</a>
+  <a href="index.php" class="logo">LeChat - Chat</a>
   <div class="header-right">
   <a class="active" href="../">Start</a>
-  <a href="#contact">Contact</a>
-  <a href="#about">About</a>
+  <a href="chat.php">Chat</a>
+  <a href="login.php">Login</a>
   </div>
 </div>
 <?php
