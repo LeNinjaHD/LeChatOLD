@@ -1,19 +1,20 @@
 <?php
 session_start();
-if(!isset($_SESSION['userid'])) {
-    die('Bitte zuerst <a href="login.php">einloggen</a>');
-}
-
 //Abfrage der Nutzer ID vom Login
 $userid = $_SESSION['userid'];
-include("modemanager.php");
-#error_reporting(0);
+$id = $userid;
+$logged_in = "";
+include("langmanager.php");
+if(!isset($_SESSION['userid'])) {
+    die($loginfirst);
+}
+error_reporting(0);
 include('mysql.php');
-  #$_SESSION['name'] = $_POST['name'];
-  $sql = 'SELECT username FROM users WHERE id = '.$userid .';';
-  foreach ($pdo->query($sql) as $row) {
-    $username = $row['username'];
-  }
+#$_SESSION['name'] = $_POST['name'];
+$sql = 'SELECT username FROM users WHERE id = '.$userid .';';
+foreach ($pdo->query($sql) as $row) {
+  $username = $row['username'];
+}
 $name = $username;
 if(isset($_GET['msg'])) {
   $msg = $_POST['msg'];
@@ -37,12 +38,20 @@ if(isset($_GET['msg'])) {
       echo '<link rel="stylesheet" href="css/light.css">';
     }
     ?>
-
-    <script type='text/javascript' src='https://code.jquery.com/jquery-3.1.0.min.js'></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.js"></script>
     <script>
-      window.onload = function () {
-        $.ajax({url: './messages.php', type: 'GET', success: function(data){$('.messages').html(data);}});
-      }
+        window.onload = function () {
+          $.get('messages.php', function(data){
+              $("#msg").html(data);
+          });
+        }
+        $(function(){
+          setInterval (function() {
+            $.get('messages.php', function(data){
+                $("#msg").html(data);
+            });
+          }, 5000);
+        })
     </script>
 </head>
 <body>
@@ -58,14 +67,16 @@ if(isset($_GET['msg'])) {
 #if(isset($_SESSION['name'])) {
 ?>
 <p>
-  <a class='btn btn-default btn-sm' href='javascript:;' onCLick="$.ajax({url: './messages.php', type: 'GET', success: function(data){$('.messages').html(data);}});" onLoad="$.ajax({url: './messages.php', type: 'GET', success: function(data){$('.messages').html(data);}});">Nachrichten laden</a>
+  <!--<a class='btn btn-default btn-sm' href='javascript:;' onCLick="$.ajax({url: './messages.php', type: 'GET', success: function(data){$('.messages').html(data);}});" onLoad="$.ajax({url: './messages.php', type: 'GET', success: function(data){$('.messages').html(data);}});"><?php echo $loadmsg; ?></a>
+  <br> -->
+  <a href="settings.php"><?php echo $settings; ?></a>
   <p>
-  <div class="messages"></div>
+  <div class="messages" id="msg"></div>
   <p>
     <br>
     <form action="?msg=1" method="post">
       <input type="text" name="msg" id="msg" class="msg" minlength="3" maxlength="200" required></input>
-      <button type="submit" value="Senden" onCLick="$.ajax({url: './messages.php', type: 'GET', success: function(data){$('.messages').html(data);}});" onLoad="$.ajax({url: './messages.php', type: 'GET', success: function(data){$('.messages').html(data);}});" >Senden</button>
+      <button type="submit" value="Senden" onCLick="$.ajax({url: './messages.php', type: 'GET', success: function(data){$('.messages').html(data);}});" onLoad="$.ajax({url: './messages.php', type: 'GET', success: function(data){$('.messages').html(data);}});"><?php echo $send; ?></button>
     </form>
 <?php
 /*} else {

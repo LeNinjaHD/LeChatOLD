@@ -4,10 +4,15 @@ include("mysql.php");
 //Abfrage der Nutzer ID vom Login
 $userid = $_SESSION['userid'];
 $id = $userid;
-if(isset($_GET['modeform'])) {
+if(isset($_POST['mode'])) {
   $mode = $_POST['mode'];
-  $statement = $pdo->prepare("INSERT INTO settings (userid, mode) VALUES (?, ?)");
-  $statement->execute(array($id, $mode));
+  $statement = $pdo->prepare("UPDATE settings SET mode = ? WHERE userid = ?");
+  $statement->execute(array($mode, $id));
+}
+if(isset($_POST['lang'])) {
+  $lang = $_POST['lang'];
+  $statement = $pdo->prepare("UPDATE settings SET lang = ? WHERE userid = ?");
+  $statement->execute(array($lang, $id));
 }
 ?>
 <html>
@@ -41,35 +46,80 @@ if(isset($_GET['modeform'])) {
   <?php
   if(!isset($_SESSION['userid'])) {
     die('Bitte zuerst <a href="login.php">einloggen</a>');
+    $logged_in = "false";
+} else {
+  $logged_in = "true";
 }
+require("langmanager.php");
 $darkmode = "";
 ;
 
 ?>
 
 <p>
-<b>Deine Einstellungen:</b><br>
 <?php
+echo $yoursettings;
+echo '<br>';
 $statement = $pdo->prepare("SELECT * FROM settings WHERE userid = ?");
 $statement->execute(array($id));
 while($row = $statement->fetch()) {
-
+   $lang = $row['lang'];
    $mode = $row['mode'];
-   echo 'Anzeige-Modus: '.$mode;
    if($row['mode'] == "") {
-     echo"KEINE EINSTELLUNG GESETZT!";
+     echo $notset;
+   } else {
+     echo $display_mode;
+     echo $mode;
+   }
+   echo "<p>";
+   echo $language;
+   if($row['lang'] == "0") {
+     echo "$notset";
+   } else {
+     echo $lang;
    }
  }
-
-
 ?>
 <p>
 <form action="?modeform=1" method="post">
-  <b>Anzeige-Modus ändern:</b><br>
+  <?php echo $changemode; ?><br>
   <select name="mode">
-    <option>Darkmode</option>
-    <option>Lightmode</option>
+    <?php
+    if($mode == "Lightmode") {
+      echo '<option>Darkmode</option>';
+      echo '<option>Lightmode</option>';
+    } else {
+      echo '<option>Lightmode</option>';
+      echo '<option>Darkmode</option>';
+    }
+    ?>
   </select>
   <p>
-  <button type="submit" value="Einstellen">Einstellen</button>
+  <button type="submit" ><?php echo $set; ?></button>
 </form>
+<p>
+<form action="?langform=1" method="post">
+  <label><b><?php echo $language; ?></b><br>
+  <select name="lang">
+    <?php
+    if($lang == "de_DE") {
+    ?>
+    <option value="en_EN"><?php echo $en; ?></option>
+    <option value="cs_CZ"><?php echo $cz; ?></option>
+    <option value="de_DE"><?php echo $de; ?></option>
+    <?php
+  } else if($lang == "en_EN") {
+    ?>
+    <option value="cs_CZ"><?php echo $cz; ?></option>
+    <option value="de_DE"><?php echo $de; ?></option>
+    <option value="en_EN"><?php echo $en; ?></option>
+  <?php } else { ?>
+    <option value="de_DE"><?php echo $de; ?></option>
+    <option value="en_EN"><?php echo $en; ?></option>
+    <option value="cs_CZ"><?php echo $cz; ?></option>
+  <?php } ?>
+  </select><p>
+  <button type="submit"><?php echo $set; ?></button>
+</form>
+</body>
+</html>

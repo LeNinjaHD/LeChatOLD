@@ -6,24 +6,12 @@ include("mysql.php");
 <head>
   <meta charset="utf-8"></meta>
     <title>LeChat - Login</title>
-    <?php
-    $mode = "";
-    $statement = $pdo->prepare("SELECT mode FROM settings WHERE userid = ?");
-    $statement->execute(array($id));
-    while($row = $statement->fetch()) {
-       $mode = $row['mode'];
-    }
-    if($mode == "Darkmode") {
-      echo '<link rel="stylesheet" href="css/header.css">';
-    } else {
-      echo '<link rel="stylesheet" href="css/light.css">';
-    }
-    ?>
+    <link rel="stylesheet" href="css/light.css">
 </head>
 
 <body>
   <div class="header">
-    <a href="https://localhost/chat/alpha" class="logo">LeChat - Registrieren</a>
+    <a href="index.php" class="logo">LeChat - Registrieren</a>
       <div class="header-right">
         <a class="active" href="../">Start</a>
         <a href="chat.php">Chat</a>
@@ -38,6 +26,7 @@ include("mysql.php");
       $username = $_POST['email'];
       $passwort = $_POST['passwort'];
       $passwort2 = $_POST['passwort2'];
+      $lang = $_POST['lang'];
 
       /*if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
           echo 'Bitte eine gültige E-Mail-Adresse eingeben<br>';
@@ -59,7 +48,7 @@ include("mysql.php");
           $user = $statement->fetch();
 
           if($user !== false) {
-              echo 'Diese E-Mail-Adresse ist bereits vergeben<br>';
+              echo "<b>This username is already taken! Please choose another one.</b><p>";
               $error = true;
           }
       }
@@ -71,9 +60,19 @@ include("mysql.php");
           $statement = $pdo->prepare("INSERT INTO users (username, passwort) VALUES (?, ?)");
           $result = $statement->execute(array($username, $passwort_hash));
 
+
+
           if($result) {
-              echo 'Du wurdest erfolgreich registriert. <a href="login.php">Zum Login</a>';
+              $statement = $pdo->prepare("SELECT * FROM users WHERE username = :name");
+              $result = $statement->execute(array('name' => $username));
+              $user = $statement->fetch();
+              $_SESSION['userid'] = $user['id'];
+              $userid = $_SESSION['userid'];
+              include("langmanager.php");
+              echo $finished;
               $showFormular = false;
+              $statement = $pdo->prepare("INSERT INTO settings (userid, mode, lang) VALUES (?, ?, ?)");
+              $result = $statement->execute(array($userid, 'Lightmode', $lang));
           } else {
               echo 'Beim Abspeichern ist leider ein Fehler aufgetreten<br>';
           }
@@ -85,14 +84,17 @@ include("mysql.php");
 
   <form action="?register=1" method="post">
   Username:<br>
-  <input type="text" size="40" maxlength="250" name="email"><br><br>
-
+  <input type="text" size="40" maxlength="250" name="email"><p>
   Dein Passwort:<br>
   <input type="password" size="40"  maxlength="250" name="passwort"><br>
-
   Passwort wiederholen:<br>
-  <input type="password" size="40" maxlength="250" name="passwort2"><br><br>
-
+  <input type="password" size="40" maxlength="250" name="passwort2"><p>
+  Sprache/Language:<br>
+  <select name="lang">
+    <option value="de_DE">Deutsch/German</option>
+    <option value="en_EN">Englisch/English</option>
+    <option value="cs_CZ">Tschechisch/Czech</option>
+  </select><p>
   <input type="submit" value="Abschicken">
   </form>
 

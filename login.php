@@ -6,19 +6,7 @@ include("mysql.php");
 <head>
   <meta charset="utf-8"></meta>
     <title>LeChat - Login</title>
-    <?php
-    $mode = "";
-    $statement = $pdo->prepare("SELECT mode FROM settings WHERE userid = ?");
-    $statement->execute(array($id));
-    while($row = $statement->fetch()) {
-       $mode = $row['mode'];
-    }
-    if($mode == "Darkmode") {
-      echo '<link rel="stylesheet" href="css/header.css">';
-    } else {
-      echo '<link rel="stylesheet" href="css/light.css">';
-    }
-    ?>
+    <link rel="stylesheet" href="css/light.css">
 </head>
 
 <body>

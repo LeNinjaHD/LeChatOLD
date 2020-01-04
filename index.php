@@ -1,13 +1,15 @@
 <?php
 session_start();
 include("mysql.php");
+#error_reporting(0);
 if(!isset($_SESSION['userid'])) {
-    die('Bitte zuerst <a href="login.php">einloggen</a>');
+  $logged_in = "false";
+} else {
+  $userid = $_SESSION['userid'];
+  $id = $userid;
+  $logged_in = "true";
 }
-
-//Abfrage der Nutzer ID vom Login
-$userid = $_SESSION['userid'];
-$id = $userid;
+include("langmanager.php");
 ?>
 <html>
 <head>
@@ -20,11 +22,14 @@ $id = $userid;
     while($row = $statement->fetch()) {
        $mode = $row['mode'];
     }
+    if($logged_in == "false") {
+      echo '<link rel="stylesheet" href="css/light.css">';
+    } else {
     if($mode == "Darkmode") {
       echo '<link rel="stylesheet" href="css/header.css">';
-    } else {
+    } else { if($mode == "Lightmode") {
       echo '<link rel="stylesheet" href="css/light.css">';
-    }
+    }}}
     ?>
 </head>
 
@@ -37,6 +42,14 @@ $id = $userid;
         <a href="login.php">Login</a>
       </div>
   </div>
-  <h1>Herzlich Wilkommen bei <b>LeChat</b></h1>
+  <?php
+  if($logged_in == "false") {
+      die($loginfirst);
+  } else {
+  ?>
+  <h1><?php echo $welcome; ?></h1>
   <p>
-  <a href="chat.php">Zum Chat</a>
+  <a href="chat.php"><?php echo $tochat; ?></a>
+<?php
+}
+?>
