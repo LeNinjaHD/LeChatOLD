@@ -1,15 +1,7 @@
 /* Style the header with a grey background and some padding */
-input[type="file"] {
-	display: block;
-	margin: 2em;
-	padding: 2em;
-	border: 1px dotted;
-}
-#name {
-	display: block;
-	margin: 2em;
-  border: 5px solid #BABABA;
-  border-radius: 45px;
+#mysql {
+border: 5px solid #A8A8A8;
+border-radius: 16px;
 }
 body {
 	background-color: #ffffff;

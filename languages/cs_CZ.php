@@ -8,24 +8,10 @@ $tochat = "Chat";
 
 //logout.php
 $alreadyloggedout = 'Již jsi odhlášen!';
-$whatnow = "Nyní můžeš toto okno zavřít";
+$whatnow = "Nyní můžeme zavřít toto okno";
 
 //chat.php
 $settings = "Nastavení";
 $loadmsg = "Načíst zprávy";
 $send = "Poslat";
-
-//register.php
-$finished = 'Registrace dokončena. Nyní můžeš do <a href="chat.php">Chatu</a>.';
-
-//settings.php
-$yoursettings = "<b>Vaše nastavení:</b>";
-$notset = "<b>Nemáte žádné nastavení!</b>";
-$display_mode = "Zobrazovací módy: ";
-$language = "Jazyk: ";
-$changemode = "<b>Změnit zobrazovací mód:</b>";
-$set = "Nastavit";
-$de = "Němčina";
-$en = "Angličtina";
-$cz = "Čeština";
 ?>
