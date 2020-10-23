@@ -127,19 +127,19 @@ code {
     <div class="container">
       <div class="page-header">
         <h1><?php
-        if($logged_in == "false") {
-            die($loginfirst);
-        } else {
-        ?>Wilkommen Bei <b>LeChat!</b></h1>
+        //if($logged_in == "false") {
+            //die($loginfirst);
+        //} else {
+        ?>Welcome to <b>LeChat!</b></h1>
       </div>
       <div class="jumbotron">
-      <p class="lead">Installationsanleitung:</p>
-        <p class="container lead">Importiere die db.sql in deine Datenbank.<br> Stelle nun die mysql.php ein. <br><b>FERTIG!</b></p>
+      <p class = "lead"> <h2> The time has come. <b> The third generation is here. </b> </h2> </p>
+        <p class = "container lead"> With a completely redesigned backend and many new functions, it will be something unique. <br> Be curious! </p>
       </div>
     </div>
 
     <?php
-    }
+    //}
     ?>
     <!-- Bootstrap-JavaScript
     ================================================== -->
