@@ -16,6 +16,7 @@ session_start();
 
     <!-- Bootstrap-CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/4.5/examples/floating-labels/floating-labels.css" rel="stylesheet">
 
     <!-- Besondere Stile für diese Vorlage -->
     <style>
@@ -68,41 +69,6 @@ code {
   </head>
 
     <body>
-
-      <!-- Fixierte Navbar -->
-      <nav class="navbar navbar-default navbar-static-top">
-        <div class="container">
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-              <span class="sr-only">Navigation ein-/ausblenden</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">LeChat</a>
-          </div>
-          <div id="navbar" class="navbar-collapse collapse ">
-            <ul class="nav navbar-nav">
-              <li><a href="index.php">Start</a></li>
-              <li><a href="chat.php">Chat</a></li>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Mehr <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                  <li class="dropdown-header">Schnellzugriffsleiste</li>
-                  <li><a href="settings.php"><span class="glyphicon glyphicon-wrench"></span> Einstellungen</a></li>
-                  <li role="separator" class="divider"></li>
-                  <li class="dropdown-header">Weiteres</li>
-                  <li><a href="https://github.com/LeNinjaHD/LeChat">GitHub Repository von LeChat</a></li>
-                  <li><a href="https://www.spigotmc.org/resources/73863/">SpigotMC Seite von LeChat</a></li>
-                </ul>
-              </li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-              <li class="active"><a href="register.php"><span class="glyphicon glyphicon-user"></span> Registrieren</a></li>
-              <li><a href="login.php"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-          </div><!--/.nav-collapse -->
-        </div>
-      </nav>
 <?php
 include("mysql.php");
 $showFormular = true; //Variable ob das Registrierungsformular anezeigt werden soll
@@ -154,8 +120,7 @@ if(isset($_GET['register'])) {
             $user = $statement->fetch();
             $_SESSION['userid'] = $user['id'];
             $userid = $_SESSION['userid'];
-            include("langmanager.php");
-            echo $finished;
+            echo "finished";
             $showFormular = false;
             $statement = $pdo->prepare("INSERT INTO settings (userid, mode, lang) VALUES (?, ?, ?)");
             $result = $statement->execute(array($userid, 'Lightmode', $lang));
@@ -167,23 +132,39 @@ if(isset($_GET['register'])) {
 
 if($showFormular) {
 ?>
-    <div class="container">
+    <form class="form-signin" method="post" action="?register=1">
+  <div class="text-center mb-4">
+    <h1 class="h3 mb-3 font-weight-normal">LeChat</h1>
+    <p>Here you can create an Account.</p>
+  </div>
 
-      <form class="form-signin" action="?register=1" method="post">
-        <h2 class="form-signin-heading">Bitte registriere dich!</h2>
-        <label for="username" class="sr-only">Benutzername</label>
-        <input type="text" id="username" name="username" class="form-control" placeholder="Benutzername" required autofocus>
-        <label for="eingabefeldPasswort" class="sr-only">Passwort</label>
-        <input type="password" id="eingabefeldPasswort" name="passwort" class="form-control" placeholder="Passwort" required >
-        <label for="eingabefeldPasswort2" class="sr-only">Passwort wiederholen</label>
-        <input type="password" id="eingabefeldPasswort2" name="passwort2" class="form-control" placeholder="Passwort wiederholen" required>
-        <select name="lang" class="form-control">
-          <option value="de_DE">Deutsch/German</option>
-          <option value="en_EN">Englisch/English</option>
-          <option value="cs_CZ">Tschechisch/Czech</option>
-        </select><br>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Registrieren <span class="glyphicon glyphicon-send"></span></button>
-      </form>
+  <div class="form-label-group">
+    <input type="text" name="username" id="username" class="form-control" placeholder="Username" required autofocus>
+    <label for="username">Username</label>
+  </div>
+
+  <div class="form-label-group">
+    <input type="password" name="passwort" id="passwort" class="form-control" placeholder="Password" required>
+    <label for="passwort">Password</label>
+  </div>
+
+  <div class="form-label-group">
+    <input type="password" name="passwort2" id="passwort2" class="form-control" placeholder="Repeat Password" required>
+    <label for="passwort2">Repeat Password</label>
+  </div>
+
+  <div class="input-group mb-3">
+  <div class="input-group-prepend">
+    <label class="input-group-text" for="lang">Language</label>
+  </div>
+  <select class="custom-select" id="lang" name="lang">
+    <option value="de_DE">German</option>
+    <option value="en_EN">English</option>
+    <option value="cs_CZ">Czech</option>
+  </select>
+</div>
+  <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
+</form>
       <?php
       } //Ende von if($showFormular)
       ?>
