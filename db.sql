@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.1
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 03. Jan 2020 um 18:29
--- Server-Version: 10.4.8-MariaDB
--- PHP-Version: 7.3.11
+-- Erstellungszeit: 23. Okt 2020 um 12:35
+-- Server-Version: 10.4.13-MariaDB
+-- PHP-Version: 7.4.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -21,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Datenbank: `chattemplate`
 --
+CREATE DATABASE IF NOT EXISTS `chattemplate` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `chattemplate`;
 
 -- --------------------------------------------------------
 
@@ -44,7 +45,7 @@ CREATE TABLE `messages` (
 CREATE TABLE `settings` (
   `userid` int(255) NOT NULL,
   `mode` varchar(255) NOT NULL,
-  `lang` int(255) NOT NULL
+  `lang` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -92,19 +93,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT für Tabelle `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT für Tabelle `settings`
 --
 ALTER TABLE `settings`
-  MODIFY `userid` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `userid` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT für Tabelle `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

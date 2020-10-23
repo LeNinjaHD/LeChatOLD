@@ -1,8 +1,10 @@
 <?php
 session_start();
+$userid = "";
+$id = "";
+$username = "";
 //Abfrage der Nutzer ID vom Login
 if(!isset($_SESSION['userid'])) {
-    die("<b>PLEASE LOGIN FIRST!");
     $logged_in = "false";
 } else {
   $logged_in = "true";
@@ -12,9 +14,10 @@ if(!isset($_SESSION['userid'])) {
 include("langmanager.php");
 
 
-#error_reporting(0);
+error_reporting(E_ERROR | E_PARSE | E_NOTICE);
 include('mysql.php');
 #$_SESSION['name'] = $_POST['name'];
+if($logged_in == true) {
 $sql = 'SELECT username FROM users WHERE id = '.$userid .';';
 foreach ($pdo->query($sql) as $row) {
   $username = $row['username'];
@@ -24,6 +27,7 @@ if(isset($_GET['msg'])) {
   $msg = $_POST['msg'];
   $statement = $pdo->prepare("INSERT INTO messages (name, msg) VALUES (?,?)");
   $statement->execute(array($name, $msg));
+}
 }
 ?>
 <head>
@@ -56,86 +60,6 @@ width: 100%;
 height: 60px;
 background-color: #f5f5f5;
 }
-
-
-/* Custom page CSS
--------------------------------------------------- */
-/* Not required for template or sticky footer method. */
-
-body > .container {
-padding: 60px 15px 0;
-}
-.container .text-muted {
-margin: 20px 0;
-}
-
-.footer > .container {
-padding-right: 15px;
-padding-left: 15px;
-}
-
-code {
-font-size: 80%;
-}
-.messages {
-  font-size: 18px;
-}
-body {
-  /*padding-top: 40px;*/
-  padding-bottom: 40px;
-  /*background-color: #eee;*/
-  margin-bottom: 60px;
-}
-
-.form-signin {
-  max-width: 330px;
-  padding: 15px;
-  margin: 0 auto;
-}
-.form-signin .form-signin-heading,
-.form-signin .checkbox {
-  margin-bottom: 10px;
-}
-.form-signin .checkbox {
-  font-weight: normal;
-}
-.form-signin .form-control {
-  position: relative;
-  height: auto;
-  -webkit-box-sizing: border-box;
-     -moz-box-sizing: border-box;
-          box-sizing: border-box;
-  padding: 10px;
-  font-size: 16px;
-}
-.form-signin .form-control:focus {
-  z-index: 2;
-}
-.form-signin input[type="text"] {
-  margin-bottom: -1px;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-}
-.form-signin input[type="password"] {
-  margin-bottom: 10px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-}
-.send {
-    border: solid 1px green;
-    position: relative;
-}
-.send input[type=text] {
-    border: none;
-    width: 100%;
-    padding-right: 123px;
-}
-.input-group-prepend {
-  position: absolute;
-  right: 6px;
-  top: 50%;
-  transform: translateY(-50%);
-}
 </style>
 
   <!-- Unterstützung für Media Queries und HTML5-Elemente in IE8 über HTML5 shim und Respond.js -->
@@ -165,47 +89,50 @@ body {
     </script>
 </head>
 <body>
-  <nav class="navbar navbar-default navbar-static-top">
-    <div class="container">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-          <span class="sr-only">Navigation ein-/ausblenden</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="#">LeChat</a>
-      </div>
-      <div id="navbar" class="navbar-collapse collapse ">
-        <ul class="nav navbar-nav">
-          <li><a href="index.php">Start</a></li>
-          <li class="active"><a href="chat.php">Chat</a></li>
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Mehr <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <li class="dropdown-header">Schnellzugriffsleiste</li>
-              <li><a href="settings.php"><span class="glyphicon glyphicon-wrench"></span> Einstellungen</a></li>
-              <li role="separator" class="divider"></li>
-              <li class="dropdown-header">Weiteres</li>
-              <li><a href="https://github.com/LeNinjaHD/LeChat">GitHub Repository von LeChat</a></li>
-              <li><a href="https://www.spigotmc.org/resources/73863/">SpigotMC Seite von LeChat</a></li>
-            </ul>
-          </li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
+<nav class="navbar navbar-expand-lg navbar-light bg-light rounded">
+    <a class="navbar-brand" href="./">LeChat</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample09" aria-controls="navbarsExample09" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarsExample09">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="./">Home</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="chat.php">Chat</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="settings.php"><?php echo $settings;?></a>
+        </li>
+        <!--<li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="dropdown09" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+          <div class="dropdown-menu" aria-labelledby="dropdown09">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Something else here</a>
+          </div>
+        </li>-->
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
           <?php
           if($logged_in == "true") {
           ?>
-          <li><a href="settings.php"><span class="glyphicon glyphicon-user"></span> Account</a></li>
-          <li><a href="logout.php"><span class="glyphicon glyphicon-log-out"></span> Abmelden</a></li>
+          <li class="nav-item"><a href="settings.php" class="nav-link"><span class="glyphicon glyphicon-user"></span> Account</a></li>
+          <li class="nav-item"><a href="logout.php" class="nav-link"><span class="glyphicon glyphicon-log-out"></span> Abmelden</a></li>
           <?php
           } else {
           ?>
-          <li><a href="register.php"><span class="glyphicon glyphicon-user"></span> Registrieren</a></li>
-          <li><a href="login.php"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+          <li class="nav-item"><a href="register.php" class="nav-link"><span class="glyphicon glyphicon-user"></span> Registrieren</a></li>
+          <li class="nav-item"><a href="login.php" class="nav-link"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
           <?php
           }
           ?>
+      </ul>
+    </div>
+  </nav>
+
       </div><!--/.nav-collapse -->
     </div>
   </nav>
@@ -215,10 +142,17 @@ body {
 ?>
 <p>
   <div class="container">
+  <?php 
+  if($logged_in == false) {
+    echo "<h1>" .$loginfirst ."</h1>";
+  }
+  ?>
   <div class="jumbotron">
   <!--<a class='btn btn-default btn-sm' href='javascript:;' onCLick="$.ajax({url: './messages.php', type: 'GET', success: function(data){$('.messages').html(data);}});" onLoad="$.ajax({url: './messages.php', type: 'GET', success: function(data){$('.messages').html(data);}});"><?php echo $loadmsg; ?></a>
   <br> -->
-  <a href="settings.php"><span class="glyphicon glyphicon-wrench"></span> <?php echo $settings; ?></a>
+  <h2>Chat <a href="settings.php"><svg width="0.75em" height="1em" viewBox="0 0 16 16" class="bi bi-sliders" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M11.5 2a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM9.05 3a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0V3h9.05zM4.5 7a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM2.05 8a2.5 2.5 0 0 1 4.9 0H16v1H6.95a2.5 2.5 0 0 1-4.9 0H0V8h2.05zm9.45 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm-2.45 1a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0v-1h9.05z"/>
+</svg></a></h2>
   <p>
   <div class="container messages" id="msg"></div>
   <p>
@@ -230,7 +164,7 @@ body {
       <div class="input-group">
       <input type="text" class="form-control" name="msg" id="msg" minlength="1" maxlength="200" required placeholder="Message">
       <span class="input-group-btn">
-      <button type="submit" value="Senden" class="btn btn-default" onCLick="getMSG();"><?php echo $send; ?> <span class=" glyphicon glyphicon-send"></span></button>
+      <button type="submit" value="Senden" class="btn btn-success" onCLick="getMSG();"><?php echo $send; ?></button>
     </span>
   </div><!-- /input-group -->
 </div><!-- /.col-lg-6 -->
@@ -258,8 +192,8 @@ body {
 <script src="js/bootstrap.min.js"></script>
 <!-- IE10-Anzeigefenster-Hack für Fehler auf Surface und Desktop-Windows-8 -->
 <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
-<footer class="footer">
-      <div class="container">
+<footer class="footer mt-auto py-3">
+  <div class="container">
         <p class="text-muted">&copy; <a href="https://www.spigotmc.org/resources/authors/leninjahd.698627/">LeNinjaHD</a>, 2020</p>
       </div>
   </footer>

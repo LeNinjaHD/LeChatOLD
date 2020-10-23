@@ -78,51 +78,49 @@ code {
 
   <body>
 
-    <!-- Fixierte Navbar -->
-    <nav class="navbar navbar-default navbar-static-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Navigation ein-/ausblenden</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">LeChat</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse ">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="index.php">Start</a></li>
-            <li><a href="chat.php">Chat</a></li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Mehr <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li class="dropdown-header">Schnellzugriffsleiste</li>
-                <li><a href="settings.php"><span class="glyphicon glyphicon-wrench"></span> Einstellungen</a></li>
-                <li role="separator" class="divider"></li>
-                <li class="dropdown-header">Weiteres</li>
-                <li><a href="https://github.com/LeNinjaHD/LeChat">GitHub Repository von LeChat</a></li>
-                <li><a href="https://www.spigotmc.org/resources/73863/">SpigotMC Seite von LeChat</a></li>
-              </ul>
-            </li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <?php
-            if($logged_in == "true") {
-            ?>
-            <li><a href="settings.php"><span class="glyphicon glyphicon-user"></span> Account</a></li>
-            <li><a href="logout.php"><span class="glyphicon glyphicon-log-out"></span> Abmelden</a></li>
-            <?php
-            } else {
-            ?>
-            <li><a href="register.php"><span class="glyphicon glyphicon-user"></span> Registrieren</a></li>
-            <li><a href="login.php"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-            <?php
-            }
-            ?>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light rounded">
+    <a class="navbar-brand" href="./">LeChat</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample09" aria-controls="navbarsExample09" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarsExample09">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="./">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="chat.php">Chat</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="settings.php"><?php echo $settings;?></a>
+        </li>
+        <!--<li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="dropdown09" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+          <div class="dropdown-menu" aria-labelledby="dropdown09">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Something else here</a>
+          </div>
+        </li>-->
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+          <?php
+          if($logged_in == "true") {
+          ?>
+          <li class="nav-item"><a href="settings.php" class="nav-link"><span class="glyphicon glyphicon-user"></span> Account</a></li>
+          <li class="nav-item"><a href="logout.php" class="nav-link"><span class="glyphicon glyphicon-log-out"></span> Abmelden</a></li>
+          <?php
+          } else {
+          ?>
+          <li class="nav-item"><a href="register.php" class="nav-link"><span class="glyphicon glyphicon-user"></span> Registrieren</a></li>
+          <li class="nav-item"><a href="login.php" class="nav-link"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+          <?php
+          }
+          ?>
+      </ul>
+    </div>
+  </nav>
 
 
     <!-- Seiteninhalt -->
