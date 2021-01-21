@@ -9,11 +9,11 @@ if(!isset($_SESSION['userid'])) {
   $userid = $_SESSION['userid'];
   $id = $userid;
 }
-include("langmanager.php");
+require("langmanager.php");
 
 
 #error_reporting(0);
-include('mysql.php');
+require('mysql.php');
 #$_SESSION['name'] = $_POST['name'];
 $sql = 'SELECT username FROM users WHERE id = '.$userid .';';
 foreach ($pdo->query($sql) as $row) {

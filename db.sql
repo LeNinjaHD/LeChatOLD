@@ -44,7 +44,7 @@ CREATE TABLE `messages` (
 CREATE TABLE `settings` (
   `userid` int(255) NOT NULL,
   `mode` varchar(255) NOT NULL,
-  `lang` int(255) NOT NULL
+  `lang` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
