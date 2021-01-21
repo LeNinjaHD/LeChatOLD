@@ -1,5 +1,4 @@
 # LeChat
-# THIS VERSION OF LECHAT WON'T BE UPDATED ANYMORE! LeChat will be fully recoded: [LeChat](https://github.com/leninjahd/lechat)
 LeChat
 Ein einfacher PHP Chat der AJAX benutzt!
 ​
