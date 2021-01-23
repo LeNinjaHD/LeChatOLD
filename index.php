@@ -1,6 +1,7 @@
 <?php
 session_start();
 require("mysql.php");
+require("config.php");
 if(!isset($_SESSION['userid'])) {
   $logged_in = "false";
 } else {
@@ -88,7 +89,7 @@ code {
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">LeChat</a>
+          <a class="navbar-brand" href="./"><?php echo $chatname; ?></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse ">
           <ul class="nav navbar-nav">
@@ -128,21 +129,13 @@ code {
     <!-- Seiteninhalt -->
     <div class="container">
       <div class="page-header">
-        <h1><?php
-        if($logged_in == "false") {
-            die($loginfirst);
-        } else {
-        ?>Wilkommen Bei <b>LeChat!</b></h1>
+        <h1><?php echo $welcome; ?></b></h1>
       </div>
       <div class="jumbotron">
-      <p class="lead">Installationsanleitung:</p>
-        <p class="container lead">Importiere die db.sql in deine Datenbank.<br> Stelle nun die mysql.php ein. <br><b>FERTIG!</b></p>
+      <p class="lead">LeChat DevBuild</p>
+        <p class="container lead">This Version of LeChat is very unstable and should not be used in productive enviroments.</p>
       </div>
     </div>
-
-    <?php
-    }
-    ?>
     <!-- Bootstrap-JavaScript
     ================================================== -->
     <!-- Am Ende des Dokuments platziert, damit Seiten schneller laden -->

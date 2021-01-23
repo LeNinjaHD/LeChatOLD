@@ -3,7 +3,7 @@
 
 //index.php
 $loginfirst = 'Bitte zuerst <a href="login.php">einloggen</a>';
-$welcome = "Herzlich Wilkommen bei <b>LeChat</b>";
+$welcome = "Wilkommen bei <b>$chatname</b>";
 $tochat = "Zum Chat";
 
 //logout.php
